@@ -9,6 +9,7 @@ using namespace std;
 
 void theGame();
 string getString();
+string checkString(string input);
 
 enum class ForegroundColor : int {
 	Red = 31,
@@ -64,30 +65,50 @@ int main()
 }
 void theGame()
 {
-	string input1;
-	string input2;
-	string input3;
-	string input4;
-	string input5;
+	//vector<string> stringArr;
+	string input;
+	int guesses = 0;
 
 	string correctString = "hallo";
 	cout << FOREGROUND(ForegroundColor::DarkBlue,"       Wordle") << endl;
-	
+	do
+	{
+		input = getString();
+		checkString(input);
 
-	input1 = getString();
-	cout << "| "<< input1[0] << " | "<< input1[1] << " | "<< input1[2] << " | "<< input1[3] <<" | "<< input1[4] << " |" << endl;
+
+		cout << "| " << input[0] << " | " << input[1] << " | " << input[2] << " | " << input[3] << " | " << input[4] << " |" << endl;
+		guesses++;
+
+		
+		cout << guesses << endl;
+		
+
+	} while (input != correctString && guesses != 6); // what way sould i write? input != correctString or input.compare(correctString)
+
+	if (input == correctString )
+	{
+		cout << "You found the right word: " << correctString << endl;
+	}
+	else
+	{
+		cout << "You did not find the right word. The right word was: " << correctString << endl;
+	}
+
+	cout << "End of game" << endl;
+	
 	
 
 }
-string getString()
+string getString() // send in list of strings
 {
 	string inputStr;
-	string listOfStrings = "hello";
+	string listOfStrings = "hallo";
 
 	while (1)
 	{
 		cin >> inputStr;
-		if (inputStr!=listOfStrings)
+		if (inputStr!=listOfStrings || inputStr.size() > 5) // check if the input is a real word or not. Checks if the input is more then 5 chars long
 		{
 			cin.clear();
 			cin.ignore(INT_MAX, '\n');
@@ -100,15 +121,28 @@ string getString()
 	}
 	return inputStr;
 }
-vector<string> checkForChars(string input)
+string checkString(string input) // hlles
 {
-	string correctString = "hello";
-	vector< string > charArr;
-
+	string correctString = "hallo"; // how to do if the input have 2 of the same letter
 	
-	return charArr;
+
+	for (int i = 0; i < input.size(); i++)
+	{
+		for (int j = 0; j < correctString.size(); j++)
+		{
+			if (input[i] == correctString[j])
+			{
+				cout << FOREGROUND(ForegroundColor::DarkBlue, input[i]);
+				//check if that input[i] has the same index as correctstring[j]
+				//if they have the same index set that input[i] to green backgorund, break
+				//else set that input[i] to have yellow background, break
+			}
+			else if (correctString.size() - 1 == j)
+			{
+				cout << BACKGROUND(BackgroundColor::Gray, input[i]);
+			}
+		}
+	}
+	return input;
 }
-
-
-
 

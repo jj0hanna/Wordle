@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <string>
 #include <vector>
@@ -9,7 +8,8 @@ using namespace std;
 
 void theGame();
 string getString();
-string checkString(string input);
+void printWord(string input, string correctWord);
+
 
 enum class ForegroundColor : int {
 	Red = 31,
@@ -56,16 +56,9 @@ int main()
 		} while (input != 2);
 
 
-
-
-
-
-
-
 }
 void theGame()
 {
-	//vector<string> stringArr;
 	string input;
 	int guesses = 0;
 
@@ -74,15 +67,9 @@ void theGame()
 	do
 	{
 		input = getString();
-		checkString(input);
+		printWord(input, correctString);
 
-
-		cout << "| " << input[0] << " | " << input[1] << " | " << input[2] << " | " << input[3] << " | " << input[4] << " |" << endl;
 		guesses++;
-
-		
-		cout << guesses << endl;
-		
 
 	} while (input != correctString && guesses != 6); // what way sould i write? input != correctString or input.compare(correctString)
 
@@ -103,12 +90,12 @@ void theGame()
 string getString() // send in list of strings
 {
 	string inputStr;
-	string listOfStrings = "hallo";
+	vector<string> listOfWords = {"hella", "hallo", "hejdå"};
 
 	while (1)
 	{
 		cin >> inputStr;
-		if (inputStr!=listOfStrings || inputStr.size() > 5) // check if the input is a real word or not. Checks if the input is more then 5 chars long
+		if (inputStr.size() > 5) // check if the input is a real word or not(fix). Checks if the input is more then 5 chars long
 		{
 			cin.clear();
 			cin.ignore(INT_MAX, '\n');
@@ -121,28 +108,37 @@ string getString() // send in list of strings
 	}
 	return inputStr;
 }
-string checkString(string input) // hlles
-{
-	string correctString = "hallo"; // how to do if the input have 2 of the same letter
-	
 
-	for (int i = 0; i < input.size(); i++)
+void printWord(string input, string correctWord) // hallo // hallo
+{
+	for (int i = 0; i < input.length(); i++)  
 	{
-		for (int j = 0; j < correctString.size(); j++)
+		if (input[i] == correctWord[i])
 		{
-			if (input[i] == correctString[j])
+			cout << BACKGROUND(BackgroundColor::Green, input[i]);
+		}
+		else
+		{
+			bool letterIsYellow = false;
+			for (int j = 0; j < input.length(); j++)
 			{
-				cout << FOREGROUND(ForegroundColor::DarkBlue, input[i]);
-				//check if that input[i] has the same index as correctstring[j]
-				//if they have the same index set that input[i] to green backgorund, break
-				//else set that input[i] to have yellow background, break
+				if (input[i] == correctWord[j])
+				{
+					letterIsYellow = true;
+					break;
+				}
 			}
-			else if (correctString.size() - 1 == j)
+			
+			if (letterIsYellow)
+			{
+				cout << BACKGROUND(BackgroundColor::Yellow, input[i]);
+			}
+			else
 			{
 				cout << BACKGROUND(BackgroundColor::Gray, input[i]);
 			}
 		}
 	}
-	return input;
+	cout << endl;
 }
 

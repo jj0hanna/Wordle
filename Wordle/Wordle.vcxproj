@@ -139,7 +139,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="TheGame.cpp" />
     <ClCompile Include="Wordle.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TheGame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

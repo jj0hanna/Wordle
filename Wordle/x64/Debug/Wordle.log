@@ -1,3 +1,3 @@
 ﻿  TheGame.cpp
-C:\Users\JohannaJohansson\Documents\VSProjects\WordleAssigment\Wordle\TheGame.cpp(77,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  Wordle.vcxproj -> C:\Users\JohannaJohansson\Documents\VSProjects\WordleAssigment\x64\Debug\Wordle.exe
+D:\visual\WordleAssigment\Wordle\TheGame.cpp(80,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Wordle.vcxproj -> D:\visual\WordleAssigment\x64\Debug\Wordle.exe

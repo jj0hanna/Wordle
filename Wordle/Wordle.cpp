@@ -6,9 +6,12 @@
 #include <map>
 #include <time.h>
 #include <stdlib.h>
+#include <set>
 using namespace std;
 
-map<int, string>* words = nullptr;
+//map<int, string>* words;
+set<string> *words;
+
 void loadWordMap();
 
 int main()
@@ -37,7 +40,8 @@ int main()
 }
 void loadWordMap()
 {
-	words = new map<int, string>;
+	//words = new map<int, string>;
+	words = new set<string>;
 
 	fstream wordFile;
 	wordFile.open("words.txt");
@@ -45,12 +49,12 @@ void loadWordMap()
 	if (wordFile)
 	{
 		string word;
-		int count = 0;
+		//int count = 0;
 
 		for (int i = 0; getline(wordFile, word); i++) // get lenght of the list in txt
 		{
-			words->insert({ i, word });
-			count++;
+			words->insert({word});
+			//count++;
 		}
 
 		wordFile.close();

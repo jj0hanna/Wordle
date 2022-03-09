@@ -6,6 +6,7 @@
 #include <map>
 #include <time.h>
 #include <stdlib.h>
+#include <set>
 
 using namespace std;
 
@@ -18,7 +19,8 @@ string getString();
 void printWord(string input, string correctWord);
 string forceWordToUppercase(string input);
 string getTheCorrectWord();
-extern map<int, string>* words;
+//extern map<int, string>* words;
+extern set<string>* words;
 
 enum class ForegroundColor : int {
 	Red = 31,
@@ -71,15 +73,17 @@ void theGame()
 
 string getTheCorrectWord()
 {
-	map<int, string>::iterator it;
+	//map<int, string>::iterator it;
+	set<string>::iterator it;
 	string correctword;
 
 	srand(time(NULL));
 
-	int randomKeyNumber = rand() % words->size() + 0;
 	
-	it = words->find(randomKeyNumber); // use random number to decide wich word
-	correctword = words->find(randomKeyNumber)->second;
+
+	//int randomKeyNumber = rand() % words->size() + 0;
+	//it = words->find(randomKeyNumber); // use random number to decide wich word
+	//correctword = words->find(randomKeyNumber)->second;
 	
 	return correctword;
 }
@@ -89,8 +93,12 @@ string getString() // send in list of strings
 	
 	while (1)
 	{
+		
 		getline(cin, inputStr);
 		inputStr = forceWordToUppercase(inputStr);
+		
+		//it = words->find(inputStr);
+		//cout << *it;
 
 		if (inputStr.size() > 5) // check if the input is a real word or not(fix). Checks if the input is more then 5 chars long
 		{
@@ -98,12 +106,18 @@ string getString() // send in list of strings
 			cin.ignore(INT_MAX, '\n');
 			cout << "Not valid, try again!" << endl;
 		}
+		if (!words->contains(inputStr))
+		{
+			cout << "thats to a word" << endl;
+		}
+		//if (it == words->end())
+		//{
+		//	cout << "thats to a word";  // not working
+		//}
 		else
 		{
 			break;
 		}
-
-
 	}
 	return inputStr;
 }

@@ -3,6 +3,7 @@
 #include <vector>
 #include "theGame.h"
 #include <fstream>
+#include <map>
 
 using namespace std;
 
@@ -64,16 +65,28 @@ void theGame()
 }
 void words()
 {
-	
+	map<int, string> words;
+	map<int, string>::iterator it;
+	// fix random number between x-y
+
 	fstream wordFile;
 	wordFile.open("words.txt");
-
+	
 	if (wordFile)
 	{
+
 		string x;
-		wordFile >> x; // read from file
-		cout << "The first string in the file: ";
-		cout << x << endl;
+		
+		for (int i = 0; i < 10; i++) // get lenght of the list in txt
+		{
+			wordFile >> x; // read from file
+			words.insert({i, x});
+		}
+		
+		it = words.find(9); // use random number to decide wich word
+		cout << words.find(9)->second << '\n'; // save that word as a string and pas it through the function to the game
+		
+		
 
 		wordFile.close();
 	}
@@ -81,7 +94,7 @@ void words()
 	{
 		cout << "file not found!" << endl;
 	}
-
+	
 	
 }
 string getString() // send in list of strings

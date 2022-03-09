@@ -4,6 +4,8 @@
 #include "theGame.h"
 #include <fstream>
 #include <map>
+#include <time.h>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -11,9 +13,12 @@ using namespace std;
 #define BACKGROUND(color, text) "\033[3;42;" << static_cast<int>(color) << "m" << text << "\033[0m"
 
 
-void words();
+
 string getString();
-void printWord(string input, string correctWord); //should they be here or in thegame.h?
+void printWord(string input, string correctWord);
+string forceWordToUppercase(string input);
+string getTheCorrectWord();
+extern map<int, string>* words;
 
 enum class ForegroundColor : int {
 	Red = 31,
@@ -37,20 +42,20 @@ enum class BackgroundColor : int {
 
 void theGame()
 {
-	words();
 	string input;
 	int guesses = 0;
+	string correctString = getTheCorrectWord(); // get correct string
 	
-	string correctString = "hallo";
 	cout << FOREGROUND(ForegroundColor::DarkBlue, "       Wordle") << endl;
 	do
 	{
 		input = getString();
+		
 		printWord(input, correctString);
 
 		guesses++;
 
-	} while (input != correctString && guesses != 6); // what way sould i write? input != correctString or input.compare(correctString)
+	} while (input != correctString && guesses != 6);
 
 	if (input == correctString)
 	{
@@ -63,48 +68,30 @@ void theGame()
 
 	cout << "End of game" << endl;
 }
-void words()
+
+string getTheCorrectWord()
 {
-	map<int, string> words;
 	map<int, string>::iterator it;
-	// fix random number between x-y
+	string correctword;
 
-	fstream wordFile;
-	wordFile.open("words.txt");
-	
-	if (wordFile)
-	{
+	srand(time(NULL));
 
-		string x;
-		
-		for (int i = 0; i < 10; i++) // get lenght of the list in txt
-		{
-			wordFile >> x; // read from file
-			words.insert({i, x});
-		}
-		
-		it = words.find(9); // use random number to decide wich word
-		cout << words.find(9)->second << '\n'; // save that word as a string and pas it through the function to the game
-		
-		
-
-		wordFile.close();
-	}
-	else
-	{
-		cout << "file not found!" << endl;
-	}
+	int randomKeyNumber = rand() % words->size() + 0;
 	
+	it = words->find(randomKeyNumber); // use random number to decide wich word
+	correctword = words->find(randomKeyNumber)->second;
 	
+	return correctword;
 }
 string getString() // send in list of strings
 {
 	string inputStr;
-	vector<string> listOfWords = { "hella", "hallo", "hejdå" };
-
+	
 	while (1)
 	{
-		cin >> inputStr;
+		getline(cin, inputStr);
+		inputStr = forceWordToUppercase(inputStr);
+
 		if (inputStr.size() > 5) // check if the input is a real word or not(fix). Checks if the input is more then 5 chars long
 		{
 			cin.clear();
@@ -115,11 +102,13 @@ string getString() // send in list of strings
 		{
 			break;
 		}
+
+
 	}
 	return inputStr;
 }
 
-void printWord(string input, string correctWord) // hallo // hallo
+void printWord(string input, string correctWord) 
 {
 	for (int i = 0; i < input.length(); i++)
 	{
@@ -150,5 +139,13 @@ void printWord(string input, string correctWord) // hallo // hallo
 		}
 	}
 	cout << endl;
+}
+string forceWordToUppercase(string input)
+{
+	for (int i = 0; i < input.length(); i++)
+	{
+		input[i] = toupper(input[i]); // force to uppercase
+	}
+	return input;
 }
 

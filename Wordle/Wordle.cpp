@@ -9,14 +9,13 @@
 #include <set>
 using namespace std;
 
-//map<int, string>* words;
 set<string> *words;
+vector<string> *vecWords;
 
 void loadWordMap();
 
 int main()
 {
-	
 	loadWordMap();
 	int input;
 	cout << "-- Welcome to the game wordle --" << endl;
@@ -38,10 +37,11 @@ int main()
 
 	return 0;
 }
+
 void loadWordMap()
 {
-	//words = new map<int, string>;
 	words = new set<string>;
+	vecWords = new vector<string>;
 
 	fstream wordFile;
 	wordFile.open("words.txt");
@@ -49,12 +49,12 @@ void loadWordMap()
 	if (wordFile)
 	{
 		string word;
-		//int count = 0;
-
+		string vecWord;
+		
 		for (int i = 0; getline(wordFile, word); i++) // get lenght of the list in txt
 		{
 			words->insert({word});
-			//count++;
+			vecWords->push_back(word);
 		}
 
 		wordFile.close();

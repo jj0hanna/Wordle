@@ -13,14 +13,13 @@ using namespace std;
 #define FOREGROUND(color, text) "\x1B[" << static_cast<int>(color) << "m" << text << "\033[0m"
 #define BACKGROUND(color, text) "\033[3;42;" << static_cast<int>(color) << "m" << text << "\033[0m"
 
-
-
 string getString();
 void printWord(string input, string correctWord);
 string forceWordToUppercase(string input);
 string getTheCorrectWord();
-//extern map<int, string>* words;
+
 extern set<string>* words;
+extern vector<string>* vecWords;
 
 enum class ForegroundColor : int {
 	Red = 31,
@@ -52,9 +51,7 @@ void theGame()
 	do
 	{
 		input = getString();
-		
 		printWord(input, correctString);
-
 		guesses++;
 
 	} while (input != correctString && guesses != 6);
@@ -73,32 +70,23 @@ void theGame()
 
 string getTheCorrectWord()
 {
-	//map<int, string>::iterator it;
-	set<string>::iterator it;
-	string correctword;
-
 	srand(time(NULL));
 
-	
-
-	//int randomKeyNumber = rand() % words->size() + 0;
-	//it = words->find(randomKeyNumber); // use random number to decide wich word
-	//correctword = words->find(randomKeyNumber)->second;
+	string correctword;
+	int randomKeyNumber = rand() % vecWords->size();
+	correctword = vecWords->at(randomKeyNumber);
 	
 	return correctword;
 }
-string getString() // send in list of strings
+string getString()
 {
 	string inputStr;
 	
 	while (1)
 	{
-		
-		getline(cin, inputStr);
+		string inputStr;
+		cin >> inputStr;
 		inputStr = forceWordToUppercase(inputStr);
-		
-		//it = words->find(inputStr);
-		//cout << *it;
 
 		if (inputStr.size() > 5) // check if the input is a real word or not(fix). Checks if the input is more then 5 chars long
 		{
@@ -108,18 +96,15 @@ string getString() // send in list of strings
 		}
 		if (!words->contains(inputStr))
 		{
-			cout << "thats to a word" << endl;
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
+			cout << "thats not a word" << endl;
 		}
-		//if (it == words->end())
-		//{
-		//	cout << "thats to a word";  // not working
-		//}
 		else
 		{
-			break;
+			return inputStr;
 		}
 	}
-	return inputStr;
 }
 
 void printWord(string input, string correctWord) 

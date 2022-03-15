@@ -1,5 +1,6 @@
 ﻿  TheGame.cpp
-C:\Users\JohannaJohansson\Documents\VSProjects\WordleAssigment\Wordle\TheGame.cpp(75,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\johan\Documents\VSProjects\Wordle\Wordle\TheGame.cpp(73,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   Wordle.cpp
   Generating Code...
-  Wordle.vcxproj -> C:\Users\JohannaJohansson\Documents\VSProjects\WordleAssigment\x64\Debug\Wordle.exe
+  LINK : C:\Users\johan\Documents\VSProjects\Wordle\x64\Debug\Wordle.exe not found or not built by the last incremental link; performing full link
+  Wordle.vcxproj -> C:\Users\johan\Documents\VSProjects\Wordle\x64\Debug\Wordle.exe

@@ -88,7 +88,7 @@ string getString()
 		cin >> inputStr;
 		inputStr = forceWordToUppercase(inputStr);
 
-		if (inputStr.size() > 5) // check if the input is a real word or not(fix). Checks if the input is more then 5 chars long
+		if (inputStr.size() != 5) // Checks if the input is more then 5 chars long
 		{
 			cin.clear();
 			cin.ignore(INT_MAX, '\n');

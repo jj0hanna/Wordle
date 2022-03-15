@@ -13,7 +13,40 @@ set<string> *words;
 vector<string> *vecWords;
 
 void loadWordMap();
+struct Node
+{
+	string Strdata;
+	Node* Left;
+	Node* Right;
 
+};
+
+Node* createNode(string Strdata)
+{
+	Node* temp = new Node; // using new, do i have to do someting more
+	temp -> Strdata;
+	temp->Left = nullptr;
+	temp->Right = nullptr;
+
+	return temp;
+}
+Node* insert(Node* node, string key)
+{
+	// if the current node already have 2 chil
+
+	if (node == nullptr)
+	{
+		return createNode(key);
+	}
+	if (key < node->Strdata)
+	{
+		node->Left = insert(node ->Left, key);
+	}
+	else if (key > node->Strdata)
+	{
+		node->Right = insert(node ->Right, key);
+	}
+}
 int main()
 {
 	loadWordMap();
@@ -27,7 +60,7 @@ int main()
 
 			switch (input)
 			{
-			case 1: theGame(); break; // how to call thegame function in the game class. sould i use header like emil did somehow in his lécture? 
+			case 1: theGame(); break;
 			case 2: cout << "Quit the game"; break;
 			default: cout << "Not a valid input, try again." << endl; break;
 			}
@@ -37,7 +70,28 @@ int main()
 
 	return 0;
 }
+void loadWordTree()
+{
+	fstream wordFile;
+	wordFile.open("words.txt");
 
+
+	if (wordFile)
+	{
+		
+
+		for (int i = 0; wordFile.eof(); i++) // get lenght of the list in txt
+		{
+			
+		}
+
+		wordFile.close();
+	}
+	else
+	{
+		cout << "file not found!" << endl;
+	}
+}
 void loadWordMap()
 {
 	words = new set<string>;

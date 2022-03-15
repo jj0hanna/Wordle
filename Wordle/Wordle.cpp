@@ -12,6 +12,8 @@ using namespace std;
 set<string> *words;
 vector<string> *vecWords;
 
+Node* rootNode = nullptr; // global?
+
 void loadWordMap();
 struct Node
 {
@@ -30,23 +32,25 @@ Node* createNode(string Strdata)
 
 	return temp;
 }
-Node* insert(Node* node, string key)
-{
-	// if the current node already have 2 chil
+ Node* insert(Node* node, string key)
+ {
+ 	// if the current node already have 2 chil?
+ 
+ 	if (node == nullptr)
+ 	{
+ 		return createNode(key); // set to root how?
+ 	}
+ 	if (key < node->Strdata)
+ 	{
+ 		node->Left = insert(node ->Left, key);
+ 	}
+ 	else if (key > node->Strdata)
+ 	{
+ 		node->Right = insert(node ->Right, key);
+ 	}
+	return node;
+ }
 
-	if (node == nullptr)
-	{
-		return createNode(key);
-	}
-	if (key < node->Strdata)
-	{
-		node->Left = insert(node ->Left, key);
-	}
-	else if (key > node->Strdata)
-	{
-		node->Right = insert(node ->Right, key);
-	}
-}
 int main()
 {
 	loadWordMap();
@@ -74,15 +78,13 @@ void loadWordTree()
 {
 	fstream wordFile;
 	wordFile.open("words.txt");
-
+	string word;
 
 	if (wordFile)
 	{
-		
-
 		for (int i = 0; wordFile.eof(); i++) // get lenght of the list in txt
 		{
-			
+			rootNode = insert(rootNode, word);
 		}
 
 		wordFile.close();

@@ -9,51 +9,85 @@
 #include <set>
 using namespace std;
 
+
 set<string> *words;
 vector<string> *vecWords;
+int totalNodes = 0;
 
-Node* rootNode = nullptr; // global?
-
-void loadWordMap();
 struct Node
 {
 	string Strdata;
+	int nr;
 	Node* Left;
 	Node* Right;
 
 };
 
-Node* createNode(string Strdata)
+Node* rootNode = nullptr;
+
+//void loadWordMap();
+void loadWordTree();
+
+Node* createNode(string Strdata, int number)
 {
 	Node* temp = new Node; // using new, do i have to do someting more
-	temp -> Strdata;
+	temp -> Strdata = Strdata;
 	temp->Left = nullptr;
 	temp->Right = nullptr;
+	temp->nr = number;
 
 	return temp;
 }
- Node* insert(Node* node, string key)
+ Node* insert(Node* node, string key, int number)
  {
- 	// if the current node already have 2 chil?
- 
+ 	
  	if (node == nullptr)
  	{
- 		return createNode(key); // set to root how?
+ 		return createNode(key, number); 
  	}
  	if (key < node->Strdata)
  	{
- 		node->Left = insert(node ->Left, key);
+ 		node->Left = insert(node ->Left, key, number);
  	}
  	else if (key > node->Strdata)
  	{
- 		node->Right = insert(node ->Right, key);
+ 		node->Right = insert(node ->Right, key, number);
  	}
 	return node;
  }
+ Node* getNode(Node* node, int randomNumber)
+ {
+	 cout << node->nr << endl;
+	 cout << node->Strdata << endl;
+	 
+	 if ( randomNumber == node->nr)
+	 {
+		 return node;
+	 }
+	 if (randomNumber < node->nr) // will never be cause a linear tree
+	 {
+		 node = getNode(node->Left, randomNumber); 
+	 }
+	 else if (randomNumber > node->nr)
+	 {
+		 node = getNode(node->Right, randomNumber);
+	 }
+
+	 return node;
+ }
+ string getRandomNode()
+ {
+	 srand(time(NULL));
+	 
+	 int randomNumber = rand() % totalNodes;
+	 return getNode(rootNode, randomNumber)->Strdata;
+ }
+
 
 int main()
 {
-	loadWordMap();
+	//loadWordMap();
+	loadWordTree();
 	int input;
 	cout << "-- Welcome to the game wordle --" << endl;
 		do
@@ -82,9 +116,10 @@ void loadWordTree()
 
 	if (wordFile)
 	{
-		for (int i = 0; wordFile.eof(); i++) // get lenght of the list in txt
+		for (int i = 0; totalNodes < 1000 && getline(wordFile, word); i++) // fråga samuel om stack overflow om vi har mer än 1400 ish ord. quick fix nu har vi bara 1000
 		{
-			rootNode = insert(rootNode, word);
+			rootNode = insert(rootNode, word, i);
+			totalNodes++;
 		}
 
 		wordFile.close();

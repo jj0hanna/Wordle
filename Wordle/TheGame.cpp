@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "theGame.h"
+#include "Wordle.h"
 #include <fstream>
 #include <map>
 #include <time.h>
@@ -20,6 +21,8 @@ string getTheCorrectWord();
 
 extern set<string>* words;
 extern vector<string>* vecWords;
+extern string getRandomNode();
+
 
 enum class ForegroundColor : int {
 	Red = 31,
@@ -45,8 +48,9 @@ void theGame()
 {
 	string input;
 	int guesses = 0;
-	string correctString = getTheCorrectWord(); // get correct string
-	
+	//string correctString = getTheCorrectWord(); // get correct string
+	string correctString = getRandomNode();
+	cout << correctString << endl;
 	cout << FOREGROUND(ForegroundColor::DarkBlue, "       Wordle") << endl;
 	do
 	{
@@ -74,6 +78,9 @@ string getTheCorrectWord()
 
 	string correctword;
 	int randomKeyNumber = rand() % vecWords->size();
+
+	
+	
 	correctword = vecWords->at(randomKeyNumber);
 	
 	return correctword;
@@ -94,12 +101,12 @@ string getString()
 			cin.ignore(INT_MAX, '\n');
 			cout << "Not valid, try again!" << endl;
 		}
-		if (!words->contains(inputStr))
-		{
-			cin.clear();
-			cin.ignore(INT_MAX, '\n');
-			cout << "thats not a word" << endl;
-		}
+		//if (!words->contains(inputStr))
+		//{
+		//	cin.clear();
+		//	cin.ignore(INT_MAX, '\n');
+		//	cout << "thats not a word" << endl;
+		//}
 		else
 		{
 			return inputStr;

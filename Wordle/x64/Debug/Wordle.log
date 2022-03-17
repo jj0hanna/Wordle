@@ -1,5 +1,1 @@
-﻿  Wordle.cpp
-C:\Users\JohannaJohansson\Documents\VSProjects\WordleAssigment\Wordle\Wordle.cpp(131,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\JohannaJohansson\Documents\VSProjects\WordleAssigment\Wordle\Wordle.cpp(156,38): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\JohannaJohansson\Documents\VSProjects\WordleAssigment\Wordle\Wordle.cpp(188,85): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\JohannaJohansson\Documents\VSProjects\WordleAssigment\Wordle\Wordle.cpp(165): fatal error C1075: '{': no matching token found
+﻿  Wordle.vcxproj -> D:\visual\WordleAssigment\x64\Debug\Wordle.exe

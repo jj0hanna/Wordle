@@ -130,6 +130,7 @@ int main()
 	loadWordTree();
 	int input;
 	srand(time(NULL)); // do this in the start once to get a better random number insted of inside getRandom
+
 	cout << "-- Welcome to the game wordle --" << endl;
 		do
 		{
@@ -153,22 +154,32 @@ int main()
 
 Node* makeTreeBalanced(vector<string>& wordsInVector, int left, int right)
 {
-	int numberToUse;
-	int maxNumber = wordsInVector.size();
+	
 	Node* output = insert(rootNode, wordsInVector[left + ((right - left) / 2)], left + ((right - left) / 2));
+	cout << output->Strdata << endl;
+	cout << output->nr << endl;
+
+	if (left != right)
+	{
+		int left1 = left + ((right - left) / 2) + 1;
+		int right1 = left + ((right - left) / 2);
+
+		makeTreeBalanced(wordsInVector, left , right1);
+		makeTreeBalanced(wordsInVector, left1, right);
+	}
+	
 	// insert node at new index[left+((right-left) / 2)] // make sure its ints // save result in a varible
 	// if left=!right do this{
 	// recurse the funcion with left , right = left+((right-left) / 2)
     // recurse the funcion with left = left + ((right - left) / 2) +1, right
 	//}
+	
 	return output;// return rootnode if i need it
 }
 void loadWordTree()
 {
 	fstream wordFile;
 	wordFile.open("words.txt");
-
-	int nextNodeToadd;
 
 	string word;
 	vector<string> wordsInVector = vector<string>();
@@ -184,7 +195,7 @@ void loadWordTree()
 		}
 		wordFile.close();
 
-		rootNode = makeTreeBalanced(wordsInVector, 0, wordsInVector.size());
+		rootNode = makeTreeBalanced(wordsInVector, 0, wordsInVector.size()); // -1 här?
 
 
 	}

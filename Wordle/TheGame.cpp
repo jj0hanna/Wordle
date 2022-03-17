@@ -72,14 +72,12 @@ void theGame()
 	cout << "End of game" << endl;
 }
 
-string getTheCorrectWord()
+string getTheCorrectWord() // was used before i changed to tree and nodes
 {
-	srand(time(NULL));
+	//srand(time(NULL));
 
 	string correctword;
 	int randomKeyNumber = rand() % vecWords->size();
-
-	
 	
 	correctword = vecWords->at(randomKeyNumber);
 	

@@ -48,7 +48,7 @@ void theGame()
 {
 	string input;
 	int guesses = 0;
-	//string correctString = getTheCorrectWord(); // get correct string
+	//string correctString = getTheCorrectWord();
 	string correctString = getRandomNode();
 	cout << correctString << endl;
 	cout << FOREGROUND(ForegroundColor::DarkBlue, "       Wordle") << endl;

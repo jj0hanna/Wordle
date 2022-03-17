@@ -25,12 +25,13 @@ struct Node
 
 Node* rootNode = nullptr;
 
-//void loadWordMap();
+//void loadWordMap(); 
+Node* makeTreeBalanced(vector<string>& wordsInVector, int left, int right);
 void loadWordTree();
 
 Node* createNode(string Strdata, int number)
 {
-	Node* temp = new Node; // using new, do i have to do someting more
+	Node* temp = new Node;
 	temp -> Strdata = Strdata;
 	temp->Left = nullptr;
 	temp->Right = nullptr;
@@ -38,46 +39,85 @@ Node* createNode(string Strdata, int number)
 
 	return temp;
 }
- Node* insert(Node* node, string key, int number)
- {
- 	
- 	if (node == nullptr)
- 	{
- 		return createNode(key, number); 
- 	}
- 	if (key < node->Strdata)
- 	{
- 		node->Left = insert(node ->Left, key, number);
- 	}
- 	else if (key > node->Strdata)
- 	{
- 		node->Right = insert(node ->Right, key, number);
- 	}
-	return node;
+Node* insert(Node* node, string key, int number)
+{
+	Node* prev = nullptr;
+	bool left = false;
+	while (node != nullptr)
+	{
+		if (key < node->Strdata)
+		{
+			prev = node;
+			node = node->Left;
+			left = true;
+		}
+		else if (key > node->Strdata)
+		{
+			prev = node;
+			node = node->Right;
+			left = false;
+		}
+	}
+	Node* newNode = createNode(key, number);
+	if (prev != nullptr) {
+		if (left) {
+			prev->Left = newNode;
+		}
+		else {
+			prev->Right = newNode;
+		}
+	}
+	return newNode;
+	
+//	 return node; // recursive functions does not work i got stack overflow
+// 	if (node == nullptr)
+// 	{
+// 		return createNode(key, number); 
+// 	}
+// 	if (key < node->Strdata)
+// 	{
+// 		node->Left = insert(node ->Left, key, number);
+// 	}
+// 	else if (key > node->Strdata)
+// 	{
+// 		node->Right = insert(node ->Right, key, number);
+// 	}
+//	return node;
  }
  Node* getNode(Node* node, int randomNumber)
  {
-	 cout << node->nr << endl;
-	 cout << node->Strdata << endl;
-	 
-	 if ( randomNumber == node->nr)
+	 while (randomNumber!= node->nr)
 	 {
-		 return node;
-	 }
-	 if (randomNumber < node->nr) // will never be cause a linear tree
-	 {
-		 node = getNode(node->Left, randomNumber); 
-	 }
-	 else if (randomNumber > node->nr)
-	 {
-		 node = getNode(node->Right, randomNumber);
+		 if (randomNumber < node->nr)
+		 {
+			 node = node->Left;
+		 }
+		 else if (randomNumber > node->nr)
+		 {
+			 node = node->Right;
+		 }
 	 }
 
 	 return node;
+
+	// if ( randomNumber == node->nr) // recursive functions does not work i got stack overflow
+	// {
+	//	 return node;
+	// }
+	// if (randomNumber < node->nr) // will never be cause a linear tree
+	// {
+	//	 node = getNode(node->Left, randomNumber); 
+	// }
+	// else if (randomNumber > node->nr)
+	// {
+	//	 node = getNode(node->Right, randomNumber);
+	// }
+	//
+	// return node;
  }
  string getRandomNode()
  {
-	 srand(time(NULL));
+	 //srand(time(NULL));
 	 
 	 int randomNumber = rand() % totalNodes;
 	 return getNode(rootNode, randomNumber)->Strdata;
@@ -89,6 +129,7 @@ int main()
 	//loadWordMap();
 	loadWordTree();
 	int input;
+	srand(time(NULL)); // do this in the start once to get a better random number insted of inside getRandom
 	cout << "-- Welcome to the game wordle --" << endl;
 		do
 		{
@@ -108,52 +149,108 @@ int main()
 
 	return 0;
 }
+
+
+Node* makeTreeBalanced(vector<string>& wordsInVector, int left, int right)
+{
+	int numberToUse;
+	int maxNumber = wordsInVector.size();
+	Node* output = insert(rootNode, wordsInVector[left + ((right - left) / 2)], left + ((right - left) / 2));
+	// insert node at new index[left+((right-left) / 2)] // make sure its ints // save result in a varible
+	// if left=!right do this{
+	// recurse the funcion with left , right = left+((right-left) / 2)
+    // recurse the funcion with left = left + ((right - left) / 2) +1, right
+	//}
+	return output;// return rootnode if i need it
+}
 void loadWordTree()
 {
 	fstream wordFile;
 	wordFile.open("words.txt");
+
+	int nextNodeToadd;
+
 	string word;
+	vector<string> wordsInVector = vector<string>();
 
 	if (wordFile)
 	{
-		for (int i = 0; totalNodes < 1000 && getline(wordFile, word); i++) // fråga samuel om stack overflow om vi har mer än 1400 ish ord. quick fix nu har vi bara 1000
+		// Add all nodes or only words? to wordsInVector
+		// next for loop, insert nodes. Start to insert the node that is at position wordsInvector.size/2 (math.round) to not get desimal.
+		for (int i = 0; getline(wordFile, word); i++)
 		{
-			rootNode = insert(rootNode, word, i);
+			wordsInVector.push_back(word);
 			totalNodes++;
 		}
-
 		wordFile.close();
+
+		rootNode = makeTreeBalanced(wordsInVector, 0, wordsInVector.size());
+
+
 	}
 	else
 	{
 		cout << "file not found!" << endl;
 	}
-}
-void loadWordMap()
-{
-	words = new set<string>;
-	vecWords = new vector<string>;
 
-	fstream wordFile;
-	wordFile.open("words.txt");
-
-	if (wordFile)
-	{
-		string word;
-		string vecWord;
-		
-		for (int i = 0; getline(wordFile, word); i++) // get lenght of the list in txt
-		{
-			words->insert({word});
-			vecWords->push_back(word);
-		}
-
-		wordFile.close();
-	}
-	else
-	{
-		cout << "file not found!" << endl;
-	}
 }
 
+
+
+//void loadWordTree()
+//{
+//	fstream wordFile;
+//	wordFile.open("words.txt");
+//	string word;
+//	vector<string> wordsInVector = vector<string>();
+//
+//	if (wordFile)
+//	{
+//		getline(wordFile, word);
+//		rootNode = insert(rootNode, word, 0);
+//
+//		// Add all nodes or only words? to wordsInVector
+//		// next for loop, insert nodes. Start to insert the node that is at position wordsInvector.size/2 (math.round) to not get desimal.
+//
+//
+//		for (int i = 1; getline(wordFile, word); i++)
+//		{
+//			insert(rootNode, word, i);
+//			totalNodes++;
+//		}
+//
+//		wordFile.close();
+//	}
+//	else
+//	{
+//		cout << "file not found!" << endl;
+//	}
+//}
+//void loadWordMap()
+//{
+//	words = new set<string>;
+//	vecWords = new vector<string>;
+//
+//	fstream wordFile;
+//	wordFile.open("words.txt");
+//
+//	if (wordFile)
+//	{
+//		string word;
+//		string vecWord;
+//		
+//		for (int i = 0; getline(wordFile, word); i++) // get lenght of the list in txt
+//		{
+//			words->insert({word});
+//			vecWords->push_back(word);
+//		}
+//
+//		wordFile.close();
+//	}
+//	else
+//	{
+//		cout << "file not found!" << endl;
+//	}
+//}
+//
 

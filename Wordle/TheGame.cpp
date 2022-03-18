@@ -17,11 +17,12 @@ using namespace std;
 string getString();
 void printWord(string input, string correctWord);
 string forceWordToUppercase(string input);
-string getTheCorrectWord();
+//string getTheCorrectWord();
 
-extern set<string>* words;
-extern vector<string>* vecWords;
+//extern set<string>* words;
+//extern vector<string>* vecWords;
 extern string getRandomNode();
+extern bool Contains(string input);
 
 
 enum class ForegroundColor : int {
@@ -72,17 +73,6 @@ void theGame()
 	cout << "End of game" << endl;
 }
 
-string getTheCorrectWord() // was used before i changed to tree and nodes
-{
-	//srand(time(NULL));
-
-	string correctword;
-	int randomKeyNumber = rand() % vecWords->size();
-	
-	correctword = vecWords->at(randomKeyNumber);
-	
-	return correctword;
-}
 string getString()
 {
 	string inputStr;
@@ -93,18 +83,18 @@ string getString()
 		cin >> inputStr;
 		inputStr = forceWordToUppercase(inputStr);
 
-		if (inputStr.size() != 5) // Checks if the input is more then 5 chars long
+		if (inputStr.size() != 5) // Checks if the input is more or less then 5 chars long
 		{
 			cin.clear();
 			cin.ignore(INT_MAX, '\n');
 			cout << "Not valid, try again!" << endl;
 		}
-		//if (!words->contains(inputStr))
-		//{
-		//	cin.clear();
-		//	cin.ignore(INT_MAX, '\n');
-		//	cout << "thats not a word" << endl;
-		//}
+		if (!Contains(inputStr))
+		{
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
+			cout << "thats not a word" << endl;
+		}
 		else
 		{
 			return inputStr;
@@ -144,6 +134,7 @@ void printWord(string input, string correctWord)
 	}
 	cout << endl;
 }
+
 string forceWordToUppercase(string input)
 {
 	for (int i = 0; i < input.length(); i++)
@@ -152,4 +143,14 @@ string forceWordToUppercase(string input)
 	}
 	return input;
 }
+
+//string getTheCorrectWord() // was used before together with STL function i changed to tree and nodes now
+//{
+//	string correctword;
+//	int randomKeyNumber = rand() % vecWords->size();
+//	
+//	correctword = vecWords->at(randomKeyNumber);
+//	
+//	return correctword;
+//}
 

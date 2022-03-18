@@ -2,7 +2,6 @@
 #include <string>
 #include <vector>
 #include "theGame.h"
-#include "Wordle.h"
 #include <fstream>
 #include <map>
 #include <time.h>

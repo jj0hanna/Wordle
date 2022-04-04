@@ -24,7 +24,7 @@ struct Node
 Node* rootNode = nullptr;
 int totalNodes = 0;
 
-Node* insert(Node* node, string key, int number);
+Node* insert(Node* node, string key, int number); //feedback: here and on other string arguments, it could be string& to avoid copying
 Node* createNode(string Strdata, int number);
 Node* getNode(Node* node, int randomNumber);
 string getRandomNode();
@@ -105,7 +105,9 @@ Node* insert(Node* node, string key, int number)
 
 Node* createNode(string Strdata, int number)
 {
-	Node* temp = new Node;
+	Node* temp = new Node;	// feedback: here you allocate a dynamic memory. It seems like it never gets released before your program exits. This results in a memory leak.
+							// Its expected that your code should make sure all nodes that were dynamically allocated are released as well. I guess in this particular case
+							// it would mean traversing the whole tree and deleting all nodes.
 	temp->Strdata = Strdata;
 	temp->Left = nullptr;
 	temp->Right = nullptr;
@@ -136,7 +138,7 @@ string getRandomNode()
 	return getNode(rootNode, randomNumber)->Strdata;
 }
 
-void makeTreeBalanced(vector<string>& wordsInVector, size_t left, size_t right)
+void makeTreeBalanced(vector<string>& wordsInVector, size_t left, size_t right) // feedback: nice! Here you used reference to not copy the whole vector!
 {
 	Node* output = insert(rootNode, wordsInVector[left + ((right - left) / 2)], left + ((right - left) / 2));
 
@@ -156,7 +158,8 @@ void makeTreeBalanced(vector<string>& wordsInVector, size_t left, size_t right)
 	}
 }
 
-bool Contains(string input)
+bool Contains(string input) // feedback: nice implementation of a binary search! However string compares are quite expensive, so one possible optimization could be
+							// storing string hashes in the nodes, so the copare would only be done for int values.
 {
 	Node* tempNode = rootNode;
 	while (tempNode != nullptr)
@@ -183,7 +186,8 @@ void loadWordTree()
 	wordFile.open("words.txt");
 
 	string word;
-	vector<string> wordsInVector = vector<string>();
+	vector<string> wordsInVector = vector<string>(); //feedback: there is no need to to assign a newly created vector to wordsInVector; just declaring the local var would
+													 // trigger the default constructor of std::vector<string>.
 
 	if (wordFile)
 	{

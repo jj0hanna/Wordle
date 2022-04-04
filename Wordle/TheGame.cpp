@@ -20,7 +20,7 @@ string forceWordToUppercase(string input);
 
 //extern set<string>* words;
 //extern vector<string>* vecWords;
-extern string getRandomNode();
+extern string getRandomNode();		//feedback: style: would be nice to see consistent function naming, here one uses uppercase name but another one uses lowercase.
 extern bool Contains(string input);
 
 
@@ -76,7 +76,7 @@ string getString()
 {
 	string inputStr;
 	
-	while (1)
+	while (1) // feedback: this "infinite" loop coudld instead check for inputStr being valid as a condition for breaking to make logic more readable
 	{
 		string inputStr;
 		cin >> inputStr;
